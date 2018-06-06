@@ -1,18 +1,20 @@
 #include <iostream>
 #include <string>
-using namespace std;
+#include "FBullCowGame.hpp"
 
 void PrintIntro();
 void PlayGame();
-string GetGuess();
+std::string GetGuess();
 bool AskToPlayAgain();
-constexpr int NumberOfTurns = 5;
 
+FBullCowGame BCGame; // Instantiate a new game
+
+// entry point for application
 int main() {
     do {
         PrintIntro();
         PlayGame();
-        cout << endl;
+        std::cout << std::endl;
     }
     while (AskToPlayAgain());
     
@@ -22,38 +24,42 @@ int main() {
 // Introduce the game
 void PrintIntro() {
     constexpr int WORD_LENGTH = 9;
-    cout << "Welcome to Bulls and Cows, a fun word game" << endl;
-    cout << "Can you guess the " << WORD_LENGTH << " letter isogram I'm thinking of?" << endl;
+    std::cout << "Welcome to Bulls and Cows, a fun word game" << std::endl;
+    std::cout << "Can you guess the " << WORD_LENGTH << " letter isogram I'm thinking of?" << std::endl;
     return;
 }
 
 void PlayGame() {
-    for (int count = 0; count < NumberOfTurns; count++) {
-        string Guess = GetGuess();
+    int MaxTries = BCGame.GetMaxTries();
+
+    // Loop for the number of turns asking guesses
+    for (int count = 0; count < MaxTries; count++) {
+        std::string Guess = GetGuess();
         // repeat the guess
-        cout << "Your guess is: " << Guess << endl;
-        cout << endl;
+        std::cout << "Your guess is: " << Guess << std::endl;
+        std::cout << std::endl;
     }
 }
 
-string GetGuess(){
+std::string GetGuess(){
+    int CurrentTry = BCGame.GetCurrentTry();
     // get a guess from the player
-    cout << "Enter your guess: ";
-    string Guess = "";
-    getline (cin, Guess);
+    std::cout << "Try " << CurrentTry << ". Enter your guess: ";
+    std::string Guess = "";
+    std::getline (std::cin, Guess);
     return Guess;
 }
 
 bool AskToPlayAgain() {
-    cout << "Do you want to play again? ";
-    string Response = "";
-    getline(cin, Response);
+    std::cout << "Do you want to play again? ";
+    std::string Response = "";
+    std::getline(std::cin, Response);
     char Answer = Response[0];
     if (Answer == 'y' || Answer == 'Y') {
-        cout << "Ok, let's play again!\n";
+        std::cout << "Ok, let's play again!\n";
         return true;
     }
-    cout << "Thank you for playing!\n";
+    std::cout << "Thank you for playing!\n";
     return false;
 }
 
